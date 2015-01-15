@@ -208,7 +208,6 @@
         _.extend(this,opts);
         var render = this.render;
         this.render = function(){
-            console.log('this is ',render);
             render.apply(this,arguments);
             this.trigger('rendered');
         };
@@ -236,15 +235,30 @@
 
         this.trigger('rendered');
 
-        this.$el.find('[data-model]').each(_.bind(this.bindWriter,this));
+
         this.$el.find('[data-on]').each(_.bind(this.bindHandlers,this));
         this.$el.find('[data-text],[data-html],[data-repeat]').each(_.bind(this.bindReader,this));
         
         this.trigger('ready');
         return this;
     };
+    /**
+     * Programmatically define events.
+     * @return {Object} the event hash.
+     */
+    proto.events = function () {
 
+        var trigger = this.lazy ? 'change' : 'keyup';
+        
+        var events = {};
 
+        events[trigger.concat(' textarea[data-model],input[data-model]')] = 'updateValue';
+
+        return _.extend ({
+            'change select[data-model]':'updateValue'
+        },events);
+
+    };
 
     /**
      * clean up.
@@ -448,8 +462,10 @@
      * @return {ViewModel}    
      */
     proto.bindReader = function (i,el) {
+
         var properties = Object.keys(el.dataset),
             $el = $(el);
+
         _.each(properties, _.bind(function(prop){
 
             var path = $el.data(prop);
@@ -484,28 +500,7 @@
             this.trigger('change:'+alias.concat(':').concat(path));
         }
         return this;
-    };
-
-
-
-    /**
-     * bind changes on an element to update the corresponding model path
-     * @param  {Number} i  
-     * @param  {DOMElement} el 
-     * @return {ViewModel}    
-     */
-    proto.bindWriter = function ( i, el ) {
-        var path = el.dataset.model;
-
-        var trigger = this.lazy ? 'change' : 'keyup';
-
-        $(el).val(this.$get(path));
-
-        $(el).on(trigger, _.bind(this.updateValue,this));
-
-        return this;
-    };
-    
+    };    
     
 
 
