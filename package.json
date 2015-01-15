@@ -1,0 +1,23 @@
+{
+  "name": "backbone.viewmodel",
+  "version": "1.0.0",
+  "description": "minimal viewmodels for backbone",
+  "main": "backbone.viewmodel.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matchdav/backbone.viewmodel"
+  },
+  "keywords": [
+    "backbone",
+    "viewmodel"
+  ],
+  "author": "matthew davidson",
+  "license": "mit",
+  "bugs": {
+    "url": "https://github.com/matchdav/backbone.viewmodel/issues"
+  },
+  "homepage": "https://github.com/matchdav/backbone.viewmodel"
+}
